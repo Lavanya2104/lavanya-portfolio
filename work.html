@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -570,6 +570,117 @@
       border-radius: 12px;
       display:block;
     }
+
+    /* ===================== GLOBAL MOBILE PATCH (ALL TABS) ===================== */
+    @media (max-width: 980px){
+
+      /* overall shell spacing */
+      .shell{
+        width: min(980px, 96vw);
+        border-radius: 18px;
+        margin: 14px auto 18px;
+      }
+
+      /* sticky header padding */
+      .nav-wrap{
+        width: min(980px, 92vw);
+        padding: 12px 0;
+        grid-template-columns: 1fr;      /* stack on mobile */
+        gap: 10px;
+        justify-items: center;
+      }
+
+      /* brand centered + smaller */
+      .brand{
+        font-size: 28px !important;
+        justify-self: center;
+      }
+
+      /* nav centered + wraps nicely */
+      .nav-center{
+        justify-self: center;
+        gap: 10px;
+        flex-wrap: wrap;                 /* ✅ important */
+        justify-content: center;
+      }
+
+      nav a{
+        font-size: 15px;
+        padding: 10px 14px;
+      }
+
+      /* remove underline going out of box on small screens */
+      nav a.active::after{
+        bottom: -6px;
+        height: 3px;
+        left: 20%;
+        right: 20%;
+      }
+
+      /* content wrap padding */
+      .wrap{
+        width: min(980px, 92vw);
+        padding: 20px 0 60px;
+      }
+
+      /* section title */
+      .section-title{
+        font-size: 16px;
+        letter-spacing: 0.18em;
+        margin-bottom: 16px;
+      }
+
+      .section-title::after{
+        bottom: -10px;
+      }
+    }
+
+    @media (max-width: 420px){
+      .brand{ font-size: 26px !important; }
+      nav a{ font-size: 14px; padding: 9px 12px; }
+      .wrap{ padding: 18px 0 52px; }
+    }
+
+    /* ===================== WORK (work.html) MOBILE PATCH ===================== */
+    @media (max-width: 980px){
+      .work-shell{
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 12px;
+      }
+
+      .abox{
+        padding: 14px;
+        border-radius: 16px;
+      }
+
+      .proj-btn{
+        padding: 14px;
+        min-height: 72px;
+      }
+      .proj-btn .name{ font-size: 13px; }
+      .proj-btn .pill{ font-size: 11px; padding: 5px 8px; }
+
+      .proj-title{ font-size: 22px; line-height: 1.15; }
+      .proj-meta{ font-size: 15px; margin-top: 6px; }
+
+      .hero-media{ height: 240px; }
+
+      .sec-title{ font-size: 16px; margin-bottom: 14px; letter-spacing: 1.4px; }
+      .bullets li{ font-size: 14px; line-height: 1.5; margin-bottom: 10px; }
+
+      .tag{ font-size: 12px; padding: 6px 9px; }
+
+      .proj-actions{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .btn-demo{ font-size: 14px; padding: 10px 12px; }
+      .demo-note{ font-size: 12px; }
+    }
+
+
   </style>
 </head>
 
@@ -749,6 +860,19 @@
     const $demo = document.getElementById("projDemo");
     const $demoNote = document.getElementById("demoNote");
 
+    // ✅ Read project id from URL (?project=arm)
+    function getProjectFromURL(){
+      const params = new URLSearchParams(window.location.search);
+      return params.get("project");
+    }
+
+    // ✅ Keep URL synced when user clicks on sidebar
+    function setProjectInURL(id){
+      const url = new URL(window.location);
+      url.searchParams.set("project", id);
+      history.replaceState({}, "", url);
+    }
+
     function openVideo(url){
       const modal = document.getElementById("videoModal");
       const video = document.getElementById("demoVideo");
@@ -799,11 +923,11 @@
         $tags.appendChild(span);
       });
 
-      // demo button (FIXED)
+      // demo button
       const hasDemo = p.demoUrl && p.demoUrl.trim().length > 0;
 
       if (hasDemo){
-        $demo.classList.remove("disabled");            // ✅ important
+        $demo.classList.remove("disabled");
         $demoNote.textContent = "Demo available";
 
         $demo.onclick = (e) => {
@@ -820,7 +944,10 @@
     function buildList(){
       $list.innerHTML = "";
 
-      PROJECTS.forEach((p, idx) => {
+      const targetId = getProjectFromURL(); // e.g. "arm"
+      let targetBtn = null;
+
+      PROJECTS.forEach((p) => {
         const btn = document.createElement("button");
         btn.className = "proj-btn";
         btn.type = "button";
@@ -843,15 +970,32 @@
             b.classList.remove("active");
             b.setAttribute("aria-selected", "false");
           });
+
           btn.classList.add("active");
           btn.setAttribute("aria-selected", "true");
+
           loadProject(p);
+
+          // ✅ update URL
+          setProjectInURL(p.id);
         });
 
         $list.appendChild(btn);
 
-        if (idx === 0) setTimeout(() => btn.click(), 0);
+        // ✅ if URL matches this project id, remember button
+        if (targetId && p.id === targetId){
+          targetBtn = btn;
+        }
       });
+
+      // ✅ auto-open URL project else open first
+      setTimeout(() => {
+        if (targetBtn) targetBtn.click();
+        else {
+          const first = $list.querySelector(".proj-btn");
+          if (first) first.click();
+        }
+      }, 0);
     }
 
     buildList();

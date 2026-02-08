@@ -603,6 +603,99 @@
       .stats{ grid-template-columns:1fr; }
     }
 
+    /* ===================== GLOBAL MOBILE PATCH (ALL TABS) ===================== */
+    @media (max-width: 980px){
+
+      /* overall shell spacing */
+      .shell{
+        width: min(980px, 96vw);
+        border-radius: 18px;
+        margin: 14px auto 18px;
+      }
+
+      /* sticky header padding */
+      .nav-wrap{
+        width: min(980px, 92vw);
+        padding: 12px 0;
+        grid-template-columns: 1fr;      /* stack on mobile */
+        gap: 10px;
+        justify-items: center;
+      }
+
+      /* brand centered + smaller */
+      .brand{
+        font-size: 28px !important;
+        justify-self: center;
+      }
+
+      /* nav centered + wraps nicely */
+      .nav-center{
+        justify-self: center;
+        gap: 10px;
+        flex-wrap: wrap;                 /* ✅ important */
+        justify-content: center;
+      }
+
+      nav a{
+        font-size: 15px;
+        padding: 10px 14px;
+      }
+
+      /* remove underline going out of box on small screens */
+      nav a.active::after{
+        bottom: -6px;
+        height: 3px;
+        left: 20%;
+        right: 20%;
+      }
+
+      /* content wrap padding */
+      .wrap{
+        width: min(980px, 92vw);
+        padding: 20px 0 60px;
+      }
+
+      /* section title */
+      .section-title{
+        font-size: 16px;
+        letter-spacing: 0.18em;
+        margin-bottom: 16px;
+      }
+
+      .section-title::after{
+        bottom: -10px;
+      }
+    }
+
+    @media (max-width: 420px){
+      .brand{ font-size: 26px !important; }
+      nav a{ font-size: 14px; padding: 9px 12px; }
+      .wrap{ padding: 18px 0 52px; }
+    }
+
+    /* ===================== ABOUT (about.html) MOBILE PATCH ===================== */
+    @media (max-width: 900px){
+      .about-hero{
+        grid-template-columns: 1fr !important;
+        gap: 14px;
+      }
+
+      .photo{
+        min-height: 240px;
+      }
+
+      .combo-box{
+        grid-template-columns: 1fr !important;
+        gap: 14px;
+      }
+
+      .abox{
+        padding: 14px;
+        border-radius: 16px;
+      }
+    }
+
+
     /* ===== NEON BORDER PRESETS ===== */
     .neon-green{
         border:1px solid rgba(0,255,170,0.55);

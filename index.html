@@ -459,23 +459,144 @@
       word-spacing:0.12em;
     }
 
-    @media (max-width: 900px){
-      .hero{ grid-template-columns:1fr; min-height: unset; }
-      .visual{ min-height:180px; }
-      .visual img{
-        position:relative;      /* ✅ mobile pe normal flow */
-        top:auto; right:auto;
-        transform:none;
-        height:auto;
-        width:100%;
-        max-height:260px;
-        margin: 0 auto;
+    /* ===================== GLOBAL MOBILE PATCH (ALL TABS) ===================== */
+    @media (max-width: 980px){
+
+      /* overall shell spacing */
+      .shell{
+        width: min(980px, 96vw);
+        border-radius: 18px;
+        margin: 14px auto 18px;
       }
-      .cards{ grid-template-columns:1fr; }
-      .stack{ grid-template-columns:1fr; }
-      .shell{ border-radius: 18px; margin: 14px auto 20px; }
-      .tech-line{ font-size:14px; }
+
+      /* sticky header padding */
+      .nav-wrap{
+        width: min(980px, 92vw);
+        padding: 12px 0;
+        grid-template-columns: 1fr;      /* stack on mobile */
+        gap: 10px;
+        justify-items: center;
+      }
+
+      /* brand centered + smaller */
+      .brand{
+        font-size: 28px !important;
+        justify-self: center;
+      }
+
+      /* nav centered + wraps nicely */
+      .nav-center{
+        justify-self: center;
+        gap: 10px;
+        flex-wrap: wrap;                 /* ✅ important */
+        justify-content: center;
+      }
+
+      nav a{
+        font-size: 15px;
+        padding: 10px 14px;
+      }
+
+      /* remove underline going out of box on small screens */
+      nav a.active::after{
+        bottom: -6px;
+        height: 3px;
+        left: 20%;
+        right: 20%;
+      }
+
+      /* content wrap padding */
+      .wrap{
+        width: min(980px, 92vw);
+        padding: 20px 0 60px;
+      }
+
+      /* section title */
+      .section-title{
+        font-size: 16px;
+        letter-spacing: 0.18em;
+        margin-bottom: 16px;
+      }
+
+      .section-title::after{
+        bottom: -10px;
+      }
     }
+
+    @media (max-width: 420px){
+      .brand{ font-size: 26px !important; }
+      nav a{ font-size: 14px; padding: 9px 12px; }
+      .wrap{ padding: 18px 0 52px; }
+    }
+
+    /* ===================== HOME (index.html) MOBILE PATCH ===================== */
+    @media (max-width: 900px){
+      .hero{
+        grid-template-columns: 1fr;
+        padding: 22px 18px;
+        min-height: unset;
+        gap: 16px;
+      }
+
+      .headline{
+        font-size: clamp(30px, 9vw, 44px);
+        line-height: 0.95;
+      }
+
+      .subline{
+        font-size: 16px;
+        margin-top: 10px;
+      }
+
+      .visual{
+        min-height: 180px;
+        justify-content: center;
+      }
+
+      .visual img{
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        height: auto;
+        width: min(520px, 100%);
+      }
+
+      .cards{
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .card{
+        min-height: unset;
+        border-width: 2px;
+      }
+
+      .thumb{ height: 200px; }
+      .card-title{ font-size: 14px; }
+
+      .stack{
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .stack-box{
+        padding: 14px;
+        border-radius: 14px;
+      }
+
+      .stack-box h4{
+        font-size: 14px;
+        letter-spacing: 0.12em;
+      }
+
+      .tech-line{
+        font-size: 13px;
+        line-height: 1.6;
+      }
+    }
+
+
   </style>
 </head>
 
@@ -512,22 +633,22 @@
         <h2 class="section-title">Project Stack</h2>
 
         <div class="cards">
-          <div class="card" onclick="location.href='work.html#turtlebot'">
+          <div class="card" onclick="location.href='work.html?project=amr'">
             <div class="thumb"><img src="assets/turtlebot.png" alt="TurtleBot ROS"></div>
             <div class="card-body"><p class="card-title">TurtleBot Navigation (ROS)</p></div>
           </div>
 
-          <div class="card" onclick="location.href='work.html#thread-color'">
+          <div class="card" onclick="location.href='work.html?project=thread'">
             <div class="thumb"><img src="assets/thread-detection.png" alt="Thread Color Detection"></div>
             <div class="card-body"><p class="card-title">Thread Color Detection (Industry)</p></div>
           </div>
 
-          <div class="card" onclick="location.href='work.html#robotic-arm'">
+          <div class="card" onclick="location.href='work.html?project=arm'">
             <div class="thumb"><img src="assets/robotic-arm.png" alt="Robotic Arm"></div>
             <div class="card-body"><p class="card-title">Robotic Arm – Color Sorting</p></div>
           </div>
 
-          <div class="card" onclick="location.href='work.html#omni-bot'">
+          <div class="card" onclick="location.href='work.html?project=omni'">
             <div class="thumb"><img src="assets/omni-bot.png" alt="Omni-directional Bot"></div>
             <div class="card-body"><p class="card-title">Omni-Directional Mobile Robot (Ongoing)</p></div>
           </div>
